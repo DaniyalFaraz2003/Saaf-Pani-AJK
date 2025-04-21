@@ -6,6 +6,8 @@ import AdminHomePage from './pages/adminhome';
 import AddSourcePage from './pages/addsource/AddSourcePage';
 import SourcesPage from './pages/sources/SourcesPage';
 import UpdateSource from './pages/updatesource';
+import AdminReportPage from './pages/adminreports/AdminReportPage';
+import Dashboard from './pages/userdashboard';
 
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
         <Route path="/addsource" element={<AddSourcePage />} />
         <Route path="/sources" element={<SourcesPage />} />
         <Route path="/updatesource" element={<UpdateSource />} />
+        <Route path="/adminreports" element={<AdminReportPage />} />
+        <Route path="/userdashboard" element={<Dashboard />} />
         {/* Add more routes here as needed */}
       </Routes>
     </BrowserRouter>
