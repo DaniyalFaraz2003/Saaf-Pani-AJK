@@ -7,6 +7,7 @@ const authRoute = require('./routes/authRoute');
 const waterSourceRoutes = require('./routes/waterSourceRoutes');
 const cityRoutes = require('./routes/cityRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/water-sources', waterSourceRoutes);
 app.use('/api/cities', cityRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 app.get('/', (req, res) => {
   res.send('Water Sources Management API');

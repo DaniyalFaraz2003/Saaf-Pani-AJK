@@ -1,18 +1,45 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login attempt with:", email, password);
+    setError("");
+    setLoading(true);
+
+    try {
+      // Call your login API endpoint
+      const response = await axios.post("http://localhost:3000/api/auth/login", {
+        username: email, // Using email as username (or adjust based on your API)
+        password
+      });
+
+      // Store user data in localStorage
+      localStorage.setItem("adminUser", JSON.stringify({
+        username: response.data.user.username
+      }));
+
+      // Redirect to admin dashboard
+      navigate("/adminhome");
+    } catch (err) {
+      setError(
+        err.response?.data?.message || 
+        "Login failed. Please check your credentials and try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className=" bg-[rgba(255,252,239,1)] pt-[53px] overflow-hidden min-h-screen">
+    <div className="bg-[rgba(255,252,239,1)] pt-[53px] overflow-hidden min-h-screen">
       <div className="flex flex-col items-center px-4 w-full max-w-[1765px] mx-auto">
         <div className="w-full flex justify-between items-start">
           <Link to={"/"}>
@@ -35,21 +62,27 @@ function AdminLoginPage() {
           </h1>
 
           <div className="bg-white rounded-lg shadow-lg p-8">
+            {error && (
+              <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+            
             <form onSubmit={handleSubmit}>
               <div className="mb-6">
                 <label
                   htmlFor="email"
                   className="block text-gray-700 text-sm font-medium mb-2"
                 >
-                  Email Address
+                  Username
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgba(0,170,202,0.5)] focus:border-[rgba(0,170,202,1)]"
-                  placeholder="Enter your email"
+                  placeholder="Enter admin username"
                   required
                 />
               </div>
@@ -79,15 +112,16 @@ function AdminLoginPage() {
                   required
                 />
               </div>
-              <Link to={"/adminhome"}>
-                <button
-                  type="submit"
-                  className="w-full bg-[rgba(0,170,202,1)] text-white py-3 rounded-lg font-medium hover:bg-[rgba(0,150,180,1)] transition-colors duration-300"
-                >
-                  Login
-                </button>
-              </Link>
 
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full bg-[rgba(0,170,202,1)] text-white py-3 rounded-lg font-medium hover:bg-[rgba(0,150,180,1)] transition-colors duration-300 ${
+                  loading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
             </form>
           </div>
         </div>
