@@ -1,18 +1,21 @@
+// MonthProgress.jsx
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 
-const data = [
-  { name: 'TESTED', value: 70, color: '#3B82F6' },
-  { name: 'PENDING', value: 20, color: '#F59E0B' },
-  { name: 'SAFE', value: 10, color: '#10B981' }
-];
+const MonthProgress = ({ safeSources, totalSources }) => {
+  const unsafeSources = totalSources - safeSources;
+  const testedPercentage = Math.round((safeSources / totalSources) * 100);
+  
+  const data = [
+    { name: 'SAFE', value: safeSources, color: '#10B981' },
+    { name: 'UNSAFE', value: unsafeSources, color: '#EF4444' }
+  ];
 
-const MonthProgress = () => {
   return (
     <div className="bg-mint-100 rounded-lg p-6 shadow-md relative overflow-hidden transition-all duration-300 hover:shadow-lg">
       <div className="mb-4">
         <h3 className="text-center font-semibold text-gray-800">
-          <span className="text-yellow-500">☀</span> Month progress
+          Water Safety
         </h3>
       </div>
       
@@ -34,7 +37,7 @@ const MonthProgress = () => {
             </Pie>
             <Legend
               verticalAlign="bottom"
-              height={36}
+              height={2}
               formatter={(value) => <span className="text-xs uppercase font-medium">{value}</span>}
             />
           </PieChart>

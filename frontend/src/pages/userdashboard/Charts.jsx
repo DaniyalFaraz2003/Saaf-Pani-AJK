@@ -1,11 +1,12 @@
+// Charts.jsx
 import React from 'react';
 import PHChart from './PHChart';
 
-const Charts = () => {
+const Charts = ({ phComparisonData }) => {
   return (
     <div className="bg-blue-50 rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-semibold text-gray-800">pH Trend</h3>
+        <h3 className="text-xl font-semibold text-gray-800">Water Safety by City</h3>
         <button className="text-blue-500 hover:text-blue-700">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 3v18h18"></path>
@@ -15,7 +16,7 @@ const Charts = () => {
         </button>
       </div>
       
-      <PHChart />
+      <PHChart phComparisonData={phComparisonData} />
     </div>
   );
 };

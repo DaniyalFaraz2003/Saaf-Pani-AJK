@@ -1,10 +1,62 @@
-import React from 'react';
+// Dashboard.jsx
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import StatCards from './StatCards';
 import WaterSourcesTable from './WaterSourcesTable';
 import Charts from './Charts';
+import axios from 'axios';
 
 const Dashboard = () => {
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+
+
+        const response = await axios.get("http://localhost:5000/api/dashboard");
+        
+        setDashboardData(response.data.allData);
+      } catch (err) {
+        setError("Failed to load dashboard data. Please try again later.");
+        console.error("Error fetching dashboard data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <Header />
+        <div className="mt-8 text-center">Loading dashboard data...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <Header />
+        <div className="mt-8 text-center text-red-500">{error}</div>
+      </div>
+    );
+  }
+
+  if (!dashboardData) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <Header />
+        <div className="mt-8 text-center">No dashboard data available</div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <Header />
@@ -15,11 +67,18 @@ const Dashboard = () => {
         </h1>
       </div>
       
-      <StatCards />
+      <StatCards 
+        totals={dashboardData.totals}
+        safeSourcesByCity={dashboardData.safeSourcesByCity}
+      />
       
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <WaterSourcesTable />
-        <Charts />
+        <WaterSourcesTable 
+          recentSources={dashboardData.recentSources} 
+        />
+        <Charts 
+          phComparisonData={dashboardData.phComparisonData}
+        />
       </div>
     </div>
   );

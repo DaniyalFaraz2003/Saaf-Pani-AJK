@@ -1,3 +1,4 @@
+// StatCards.jsx
 import React from 'react';
 import MonthProgress from './MonthProgress';
 
@@ -13,28 +14,31 @@ const StatCard = ({ value, label, bgColor, iconColor }) => {
   );
 };
 
-const StatCards = () => {
+const StatCards = ({ totals, safeSourcesByCity }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <StatCard 
-        value="149" 
+        value={totals.locations} 
         label="Total Areas" 
         bgColor="bg-yellow-400" 
         iconColor="bg-blue-600"
       />
       <StatCard 
-        value="6000" 
+        value={totals.sources} 
         label="Water Sources" 
         bgColor="bg-blue-400" 
         iconColor="bg-blue-600"
       />
       <StatCard 
-        value="4789" 
+        value={totals.safeSources} 
         label="Safe Sources" 
         bgColor="bg-green-500" 
         iconColor="bg-purple-600"
       />
-      <MonthProgress />
+      <MonthProgress 
+        safeSources={totals.safeSources}
+        totalSources={totals.sources}
+      />
     </div>
   );
 };
