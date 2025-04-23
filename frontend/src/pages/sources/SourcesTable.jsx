@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SourcesTable = () => {
   const user = JSON.parse(localStorage.getItem("adminUser"));
@@ -7,7 +8,7 @@ const SourcesTable = () => {
     window.location.href = "/adminlogin";
   }
   
-
+  const navigate = useNavigate();
   const [sources, setSources] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -39,8 +40,7 @@ const SourcesTable = () => {
   }, []);
 
   const handleUpdate = (id) => {
-    console.log(`Update source with id ${id}`);
-    // Will implement this later as per your instructions
+    navigate(`/updatesource/${id}`);
   };
 
   const confirmDelete = (source) => {

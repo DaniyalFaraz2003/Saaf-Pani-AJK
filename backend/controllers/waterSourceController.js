@@ -69,7 +69,7 @@ const getWaterSource = async (req, res) => {
     }
     res.json({
       success: true,
-      data: waterSource
+      waterSource
     });
   } catch (error) {
     res.status(500).json({

@@ -23,7 +23,7 @@ function App() {
         <Route path="/adminhome" element={<AdminHomePage />} />
         <Route path="/addsource" element={<AddSourcePage />} />
         <Route path="/sources" element={<SourcesPage />} />
-        <Route path="/updatesource" element={<UpdateSource />} />
+        <Route path="/updatesource/:id" element={<UpdateSource />} />
         <Route path="/adminreports" element={<AdminReportPage />} />
         <Route path="/userdashboard" element={<Dashboard />} />
         <Route path="/resultunsuccess" element={<SearchResultUnsuccess />} />
