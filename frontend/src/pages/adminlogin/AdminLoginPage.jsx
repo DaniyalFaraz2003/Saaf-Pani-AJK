@@ -3,6 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AdminLoginPage() {
+  const adminUser = JSON.parse(localStorage.getItem("adminUser"));
+  if (adminUser) {
+    window.location.href = "/adminhome";
+  }
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,7 +21,7 @@ function AdminLoginPage() {
 
     try {
       // Call your login API endpoint
-      const response = await axios.post("http://localhost:3000/api/auth/login", {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
         username: email, // Using email as username (or adjust based on your API)
         password
       });

@@ -8,6 +8,12 @@ function AddSourcePage() {
     setIsSafeToDrink(!isSafeToDrink);
   };
 
+  const handleLogout = () => {
+    // Clear local storage
+    localStorage.removeItem("adminUser");
+    window.location.href = "/adminlogin";
+  }
+
   return (
     <>
     <div className="min-h-screen bg-[rgba(255,252,239,1)] flex flex-col items-center py-8 px-4">
@@ -32,14 +38,14 @@ function AddSourcePage() {
 
         {/* Logout Button */}
         <div className="flex items-center">
-          <Link to="/adminlogin" className="flex flex-col items-center">
+          <div onClick={handleLogout} className="flex flex-col items-center">
             <img
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/97c749ad8132c69a40e98c1ef72e64804eaed1ed?placeholderIfAbsent=true"
               alt="Logout"
               className="w-16 h-16 object-contain"
             />
             <span className="mt-2 text-xl">LOGOUT</span>
-          </Link>
+          </div>
         </div>
       </div>
 

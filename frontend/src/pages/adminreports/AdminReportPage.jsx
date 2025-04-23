@@ -90,6 +90,12 @@ function AdminReportPage() {
     closeModal();
   };
 
+  const handleLogout = () => {
+    // Clear local storage
+    localStorage.removeItem("adminUser");
+    window.location.href = "/adminlogin";
+  }
+
   return (
     <>
       <div className="admin-report-container">
@@ -102,14 +108,14 @@ function AdminReportPage() {
 
           <h1 className="reports-title">REPORTS</h1>
 
-          <Link to="/adminlogin" className="logout-section">
+          <div onClick={handleLogout} className="logout-section">
             <img
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/97c749ad8132c69a40e98c1ef72e64804eaed1ed?placeholderIfAbsent=true"
               alt="Logout"
               className="w-16 h-16 object-contain"
             />
             <span className="mt-2 text-xl">LOGOUT</span>
-          </Link>
+          </div>
         </div>
 
         {/* Reports Grid */}

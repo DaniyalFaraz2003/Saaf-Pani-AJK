@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { IconArrowLeftCircle, IconLogout } from "@tabler/icons-react";
 
+
 const SourcesHeader = () => {
   const navigate = useNavigate();
 
@@ -10,6 +11,8 @@ const SourcesHeader = () => {
   };
 
   const handleLogout = () => {
+    // Clear local storage
+    localStorage.removeItem("adminUser");
     navigate("/adminlogin");
   };
 

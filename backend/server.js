@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const cors = require("cors");
 const initializeDatabase = require('./utils/initDB');
 
 const authRoute = require('./routes/authRoute');
@@ -11,8 +12,14 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 
 dotenv.config();
 
+
 const app = express();
 app.use(express.json());
+app.use(cors({
+  origin: '*', // Allow all origins (you can specify a specific origin if needed)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use('/api/auth', authRoute);
 app.use('/api/water-sources', waterSourceRoutes);

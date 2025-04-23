@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const AdminHomePage = () => {
+  const adminUser = JSON.parse(localStorage.getItem("adminUser"));
+  if (!adminUser) {
+    window.location.href = "/adminlogin";
+  }
   return (
     <>
       <div className=" bg-[rgba(255,252,239,1)] pt-20 w-screen h-screen px-7 text-center leading-none">
