@@ -6,13 +6,15 @@ const {
   getWaterSourcesByCity,
   getWaterSource,
   updateWaterSource,
-  deleteWaterSource
+  deleteWaterSource,
+  getFirstSourceByCityAndLocation
 } = require('../controllers/waterSourceController');
 
 // Public routes
 router.get('/', getAllWaterSources);
 router.get('/city/:city', getWaterSourcesByCity);
 router.get('/:id', getWaterSource);
+router.get('/city/:city/location/:location', getFirstSourceByCityAndLocation);
 
 // Protected routes (require admin authentication)
 router.post('/', createWaterSource);

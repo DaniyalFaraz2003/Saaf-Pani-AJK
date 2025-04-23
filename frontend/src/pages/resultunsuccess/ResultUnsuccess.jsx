@@ -1,13 +1,20 @@
 import React from 'react';
 import { ArrowLeft, Search, AlertCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const SearchResultUnsuccess = () => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1); // Go back to the previous page
+  }
+
   return (
     <div className="min-h-screen bg-blue-50 p-4 sm:p-8">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <button 
+          <button onClick={handleBack}
             className="flex items-center text-blue-800 font-bold hover:text-blue-600 transition-colors duration-200"
             aria-label="Go back"
           >

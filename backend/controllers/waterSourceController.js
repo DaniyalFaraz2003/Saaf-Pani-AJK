@@ -127,11 +127,39 @@ const deleteWaterSource = async (req, res) => {
   }
 };
 
+// Get first water source by city and location
+const getFirstSourceByCityAndLocation = async (req, res) => {
+    try {
+      const waterSource = await WaterSource.findOne({
+        city: req.params.city,
+        location: req.params.location
+      }).sort({ dateOfTest: -1 }); // Gets the most recent test
+      
+      if (!waterSource) {
+        return res.status(404).json({
+          success: false,
+          message: `No water source found for ${req.params.location}, ${req.params.city}`
+        });
+      }
+      
+      res.json({
+        success: true,
+        data: waterSource
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    }
+  };
+
 module.exports = {
   createWaterSource,
   getAllWaterSources,
   getWaterSourcesByCity,
   getWaterSource,
   updateWaterSource,
-  deleteWaterSource
+  deleteWaterSource,
+  getFirstSourceByCityAndLocation
 };
