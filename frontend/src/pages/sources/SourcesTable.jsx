@@ -1,67 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const SourcesTable = () => {
-  // Mock data for sources
-  const initialSources = [
-    {
-      id: 1,
-      location: "Chatterpari",
-      city: "Muzaffarabad",
-      testDate: "15 March 2025",
-      tds: "120 ppm",
-      ph: "7.2",
-      status: "Safe"
-    },
-    { 
-      id: 2,
-      location: "Nalochi", 
-      city: "Muzaffarabad", 
-      testDate: "20 March 2025",
-      tds: "150 ppm",
-      ph: "6.8",
-      status: "Safe"
-    },
-    { 
-      id: 3,
-      location: "Jhelum River", 
-      city: "Islamabad", 
-      testDate: "10 March 2025",
-      tds: "180 ppm",
-      ph: "7.0",
-      status: "Safe"
-    },
-    { 
-      id: 4,
-      location: "Khanpur Dam", 
-      city: "Haripur", 
-      testDate: "5 March 2025",
-      tds: "200 ppm",
-      ph: "7.5",
-      status: "Safe"
-    },
-    { 
-      id: 5,
-      location: "Rawal Lake", 
-      city: "Islamabad", 
-      testDate: "1 March 2025",
-      tds: "220 ppm",
-      ph: "7.8",
-      status: "Safe"
-    },
+  const user = JSON.parse(localStorage.getItem("adminUser"));
+  if (!user) {
+    window.location.href = "/adminlogin";
+  }
+  
 
-  ];
-
-  const [sources, setSources] = useState(initialSources);
+  const [sources, setSources] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [cityFilter, setCityFilter] = useState("all");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [sourceToDelete, setSourceToDelete] = useState(null);
+  const [cities, setCities] = useState([]);
 
-  // Get unique cities for filter dropdown
-  const cities = [...new Set(initialSources.map(source => source.city))];
+  // Fetch all water sources
+  useEffect(() => {
+    const fetchSources = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/water-sources");
+        setSources(response.data.waterSources || []);
+        
+        // Extract unique cities for filter
+        const uniqueCities = [...new Set(response.data.waterSources.map(source => source.city))];
+        setCities(uniqueCities);
+      } catch (err) {
+        setError("Failed to load water sources. Please try again later.");
+        console.error("Error fetching sources:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSources();
+  }, []);
 
   const handleUpdate = (id) => {
     console.log(`Update source with id ${id}`);
+    // Will implement this later as per your instructions
   };
 
   const confirmDelete = (source) => {
@@ -69,10 +48,18 @@ const SourcesTable = () => {
     setShowDeleteModal(true);
   };
 
-  const handleDelete = () => {
-    setSources(sources.filter(source => source.id !== sourceToDelete.id));
-    setShowDeleteModal(false);
-    console.log(`Deleted source with id ${sourceToDelete.id}`);
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/water-sources/${sourceToDelete._id}`);
+      
+      // Update local state to remove the deleted source
+      setSources(sources.filter(source => source._id !== sourceToDelete._id));
+      setShowDeleteModal(false);
+    } catch (err) {
+      setError("Failed to delete water source. Please try again.");
+      console.error("Error deleting source:", err);
+    }
   };
 
   const cancelDelete = () => {
@@ -88,8 +75,27 @@ const SourcesTable = () => {
     return matchesSearch && matchesCity;
   });
 
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+  };
+
+  if (loading) {
+    return <div className="loading-message">Loading water sources...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
   return (
-    <>
+    <div className="sources-management-container">
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="delete-modal-overlay">
@@ -108,16 +114,18 @@ const SourcesTable = () => {
         </div>
       )}
 
-      <div className="search-filter">
+      <div className="search-filter-container">
         <input
           type="text"
           placeholder="Search by location or city..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
         />
         <select
           value={cityFilter}
           onChange={(e) => setCityFilter(e.target.value)}
+          className="city-filter-select"
         >
           <option value="all">All Cities</option>
           {cities.map((city, index) => (
@@ -126,51 +134,116 @@ const SourcesTable = () => {
         </select>
       </div>
 
-      <div className="sources-table-container">
-        <table className="sources-table">
-          <thead className="sources-table-header">
-            <tr>
-              <th>LOCATION</th>
-              <th>CITY</th>
-              <th>TEST DATE</th>
-              <th>TDS</th>
-              <th>pH</th>
-              <th>STATUS</th>
-              <th>UPDATE</th>
-              <th>DELETE</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredSources.map((source) => (
-              <tr key={source.id} className="sources-table-row">
-                <td>{source.location}</td>
-                <td>{source.city}</td>
-                <td>{source.testDate}</td>
-                <td>{source.tds}</td>
-                <td>{source.ph}</td>
-                <td>{source.status}</td>
-                <td>
-                  <button
-                    className="update-button"
-                    onClick={() => handleUpdate(source.id)}
-                  >
-                    UPDATE
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="delete-button"
-                    onClick={() => confirmDelete(source)}
-                  >
-                    DELETE
-                  </button>
-                </td>
+      {filteredSources.length === 0 ? (
+        <div className="no-results-message">
+          No water sources found matching your criteria.
+        </div>
+      ) : (
+        <div className="sources-table-container">
+          <table className="sources-table">
+            <thead className="sources-table-header">
+              <tr>
+                <th>LOCATION</th>
+                <th>CITY</th>
+                <th>TEST DATE</th>
+                <th>TDS</th>
+                <th>pH</th>
+                <th>STATUS</th>
+                <th>UPDATE</th>
+                <th>DELETE</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+            </thead>
+            <tbody>
+              {filteredSources.map((source) => (
+                <tr key={source._id} className="sources-table-row">
+                  <td>{source.location}</td>
+                  <td>{source.city}</td>
+                  <td>{formatDate(source.dateOfTest)}</td>
+                  <td>{source.TDS} ppm</td>
+                  <td>{source.phValue}</td>
+                  <td>
+                    <span className={`status-badge ${source.isSafeForDrinking ? 'safe' : 'unsafe'}`}>
+                      {source.isSafeForDrinking ? "Safe" : "Unsafe"}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="update-button"
+                      onClick={() => handleUpdate(source._id)}
+                    >
+                      UPDATE
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="delete-button"
+                      onClick={() => confirmDelete(source)}
+                    >
+                      DELETE
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {/* Add some basic CSS */}
+      <style jsx>{`
+        .sources-management-container {
+          padding: 20px;
+          font-family: Arial, sans-serif;
+        }
+        
+        .search-filter-container {
+          display: flex;
+          gap: 15px;
+          margin-bottom: 20px;
+        }
+        
+        .search-input {
+          padding: 8px 12px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          flex-grow: 1;
+          max-width: 400px;
+        }
+        
+        .city-filter-select {
+          padding: 8px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+        
+        .status-badge {
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 0.8em;
+          font-weight: bold;
+        }
+        
+        .status-badge.safe {
+          background-color: #d4edda;
+          color: #155724;
+        }
+        
+        .status-badge.unsafe {
+          background-color: #f8d7da;
+          color: #721c24;
+        }
+        
+        
+        .loading-message, .error-message, .no-results-message {
+          padding: 20px;
+          text-align: center;
+          font-size: 1.1em;
+        }
+        
+        .error-message {
+          color: #dc3545;
+        }
+      `}</style>
+    </div>
   );
 };
 

@@ -24,7 +24,7 @@ const getAllWaterSources = async (req, res) => {
     res.json({
       success: true,
       count: waterSources.length,
-      data: waterSources
+      waterSources
     });
   } catch (error) {
     res.status(500).json({
