@@ -12,7 +12,7 @@ router.post('/', createReport);
 
 // Protected routes (require admin authentication)
 router.get('/', getAllReports);
-router.patch('/:id/status', updateReportStatus);
+router.put('/:id/status', updateReportStatus);
 router.delete('/:id', deleteReport);
 
 module.exports = router;

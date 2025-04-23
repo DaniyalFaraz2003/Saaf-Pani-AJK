@@ -24,7 +24,7 @@ const getAllReports = async (req, res) => {
     res.json({
       success: true,
       count: reports.length,
-      data: reports
+      reports
     });
   } catch (error) {
     res.status(500).json({

@@ -1,8 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowLeft, Search } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ReportForm = () => {
+  const navigate = useNavigate();
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    area: '',
+    location: '',
+    complaint: '',
+    status: 'pending' // Default status as per your API
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    // Basic validation
+    if (!formData.name || !formData.area || !formData.location || !formData.complaint) {
+      setError('Please fill all required fields');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/api/reports',
+        formData
+      );
+
+      setSuccess('Report submitted successfully!');
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        area: '',
+        location: '',
+        complaint: '',
+        status: 'pending'
+      });
+
+      // Optionally redirect after delay
+      setTimeout(() => {
+        navigate('/'); // Or wherever you want to redirect after submission
+      }, 2000);
+
+    } catch (err) {
+      setError(
+        err.response?.data?.message || 
+        'Failed to submit report. Please try again later.'
+      );
+      console.error('Error submitting report:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-blue-50 p-4 sm:p-8">
       <div className="max-w-3xl mx-auto">
@@ -38,7 +108,19 @@ const ReportForm = () => {
 
         {/* Form Card */}
         <div className="bg-blue-100/50 rounded-3xl p-8 shadow-lg">
-          <form className="space-y-6">
+          {/* Error and Success Messages */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md text-sm">
+              {success}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Column */}
               <div>
@@ -47,8 +129,12 @@ const ReportForm = () => {
                 </label>
                 <input
                   type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="bg-white w-full p-3 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your name"
+                  required
                 />
               </div>
 
@@ -59,8 +145,12 @@ const ReportForm = () => {
                 </label>
                 <input
                   type="text"
+                  name="area"
+                  value={formData.area}
+                  onChange={handleChange}
                   className="bg-white w-full p-3 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter area name"
+                  required
                 />
               </div>
             </div>
@@ -72,8 +162,12 @@ const ReportForm = () => {
               </label>
               <input
                 type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
                 className="bg-white w-full p-3 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter location details"
+                required
               />
             </div>
 
@@ -82,8 +176,12 @@ const ReportForm = () => {
                 Complaint?
               </label>
               <textarea
+                name="complaint"
+                value={formData.complaint}
+                onChange={handleChange}
                 className="bg-white w-full p-3 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[120px]"
                 placeholder="Describe your complaint"
+                required
               ></textarea>
             </div>
 
@@ -91,10 +189,13 @@ const ReportForm = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="bg-blue-700 text-white px-8 py-3 rounded-md font-semibold hover:bg-blue-800 
-                         transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                disabled={loading}
+                className={`bg-blue-700 text-white px-8 py-3 rounded-md font-semibold hover:bg-blue-800 
+                         transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                           loading ? 'opacity-70 cursor-not-allowed' : ''
+                         }`}
               >
-                SUBMIT
+                {loading ? 'SUBMITTING...' : 'SUBMIT'}
               </button>
             </div>
           </form>
