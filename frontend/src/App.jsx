@@ -26,8 +26,8 @@ function App() {
         <Route path="/updatesource/:id" element={<UpdateSource />} />
         <Route path="/adminreports" element={<AdminReportPage />} />
         <Route path="/userdashboard" element={<Dashboard />} />
-        <Route path="/resultunsuccess" element={<SearchResultUnsuccess />} />
-        <Route path="/resultsuccess" element={<SearchResultSuccess />} />
+        <Route path="/resultunsuccess/:id" element={<SearchResultUnsuccess />} />
+        <Route path="/resultsuccess/:id" element={<SearchResultSuccess />} />
         <Route path="/report" element={<ReportForm />} />
         <Route path="/search" element={<SearchPage />} />
         {/* Add more routes here as needed */}
