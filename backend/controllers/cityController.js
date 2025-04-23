@@ -1,4 +1,5 @@
 const City = require('../models/city.model');
+const sourceType = require('../models/sourceType.model');
 
 // Get all cities with their locations
 const getAllCitiesWithLocations = async (req, res) => {
@@ -56,7 +57,25 @@ const getLocationsByCity = async (req, res) => {
   }
 };
 
+const getAllWaterSourceTypes = async (req, res) => {
+  try {
+    const sourceTypes = await sourceType.find({}, 'name').sort({ name: 1 }).lean();
+
+    res.json({
+      success: true,
+      count: sourceTypes.length,
+      sourceTypes
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}
+
 module.exports = {
   getAllCitiesWithLocations,
-  getLocationsByCity
+  getLocationsByCity,
+  getAllWaterSourceTypes
 };
