@@ -26,25 +26,24 @@ const AdminHomePage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5 mt-10 w-full">
-            <button className="bg-[rgba(214,237,255,1)] text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
-              Update Source
-            </button>
-            <button className="bg-[rgba(214,237,255,1)] text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
-              Delete Source
-            </button>
-            <button className="bg-[rgba(214,237,255,1)] text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
-              Add Source
-            </button>
-            <button className="bg-[rgba(214,237,255,1)] text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
-              View Analytics
-            </button>
-            <button className="bg-[rgba(214,237,255,1)] text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
-              User Management
-            </button>
-            <button className="bg-[rgba(214,237,255,1)] text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
-              Settings
-            </button>
+          <div className="flex items-center justify-center gap-5 mt-10 w-full">
+            <Link to={"/sources"}>
+              <button className="bg-[rgba(214,237,255,1)] hover:cursor-pointer w-50 text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
+                Sources
+              </button>
+            </Link>
+
+            <Link to={"/addsource"}>
+              <button className="bg-[rgba(214,237,255,1)] hover:cursor-pointer w-50 text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
+                Add Source
+              </button>
+            </Link>
+            
+            <Link to={"/adminreports"}>
+              <button className="bg-[rgba(214,237,255,1)] hover:cursor-pointer w-50 text-[rgba(14,58,147,1)] rounded-xl p-4 font-medium text-lg hover:bg-[rgba(194,227,255,1)] transition-colors">
+                Reports
+              </button>
+            </Link>
           </div>
 
         </div>

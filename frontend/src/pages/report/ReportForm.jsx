@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeft, Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ReportForm = () => {
   return (
@@ -7,14 +8,16 @@ const ReportForm = () => {
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <button 
-            className="flex items-center text-blue-800 font-bold hover:text-blue-600 transition-colors duration-200"
-            aria-label="Go back"
-          >
-            <ArrowLeft size={24} className="mr-2" />
-            <span className="text-lg uppercase">BACK</span>
-          </button>
-          
+          <Link to={"/"}>
+            <button
+              className="flex items-center text-blue-800 font-bold hover:text-blue-600 transition-colors duration-200"
+              aria-label="Go back"
+            >
+              <ArrowLeft size={24} className="mr-2" />
+              <span className="text-lg uppercase">BACK</span>
+            </button>
+          </Link>
+
           <div className="relative w-full max-w-md ml-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search size={20} className="text-gray-400" />

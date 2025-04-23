@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -12,15 +13,15 @@ const Header = () => {
         <h1 className="flex-auto my-auto">SAAF PANI AJK </h1>
       </div>
       <nav className="flex gap-10 my-auto text-2xl font-medium leading-loose whitespace-nowrap">
-        <a href="#search" className="hover:underline">
+        <Link to={"/search"} className="hover:underline">
           Search
-        </a>
-        <a href="#dashboard" className="basis-auto hover:underline">
+        </Link>
+        <Link to={"/userdashboard"} className="basis-auto hover:underline">
           Dashboard
-        </a>
-        <a href="#report" className="hover:underline">
+        </Link>
+        <Link to={"/report"} className="hover:underline">
           Report
-        </a>
+        </Link>
       </nav>
     </header>
   );
