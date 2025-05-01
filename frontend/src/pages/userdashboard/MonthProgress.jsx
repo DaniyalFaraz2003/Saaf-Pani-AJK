@@ -12,7 +12,7 @@ const MonthProgress = ({ safeSources, totalSources }) => {
   ];
 
   return (
-    <div className="bg-mint-100 rounded-lg p-6 shadow-md relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <div className="bg-white rounded-lg p-6 shadow-md relative overflow-hidden transition-all duration-300 hover:shadow-lg">
       <div className="mb-4">
         <h3 className="text-center font-semibold text-gray-800">
           Water Safety

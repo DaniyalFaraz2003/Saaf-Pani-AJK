@@ -15,7 +15,7 @@ const SafetyBadge = ({ isSafe }) => {
 
 const WaterSourcesTable = ({ recentSources }) => {
   return (
-    <div className="bg-lavender-100 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>

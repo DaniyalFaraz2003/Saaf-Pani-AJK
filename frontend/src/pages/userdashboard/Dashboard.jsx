@@ -103,7 +103,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 ">
       {/* Modified Header with search functionality */}
       <div className="flex items-center justify-between">
         <Link to={"/"} className="flex items-center text-blue-800 font-bold hover:text-blue-600 transition-colors duration-200">

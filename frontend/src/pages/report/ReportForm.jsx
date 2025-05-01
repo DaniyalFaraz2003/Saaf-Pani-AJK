@@ -12,7 +12,7 @@ const ReportForm = () => {
     area: '',
     location: '',
     complaint: '',
-    status: 'pending' // Default status as per your API
+    status: 'pending'
   });
 
   const [loading, setLoading] = useState(false);
@@ -33,7 +33,6 @@ const ReportForm = () => {
     setError('');
     setSuccess('');
 
-    // Basic validation
     if (!formData.name || !formData.area || !formData.location || !formData.complaint) {
       setError('Please fill all required fields');
       setLoading(false);
@@ -41,14 +40,8 @@ const ReportForm = () => {
     }
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/reports',
-        formData
-      );
-
+      await axios.post('http://localhost:5000/api/reports', formData);
       setSuccess('Report submitted successfully!');
-      
-      // Reset form after successful submission
       setFormData({
         name: '',
         area: '',
@@ -56,17 +49,9 @@ const ReportForm = () => {
         complaint: '',
         status: 'pending'
       });
-
-      // Optionally redirect after delay
-      setTimeout(() => {
-        navigate('/'); // Or wherever you want to redirect after submission
-      }, 2000);
-
+      setTimeout(() => navigate('/'), 2000);
     } catch (err) {
-      setError(
-        err.response?.data?.message || 
-        'Failed to submit report. Please try again later.'
-      );
+      setError(err.response?.data?.message || 'Failed to submit report. Please try again later.');
       console.error('Error submitting report:', err);
     } finally {
       setLoading(false);
@@ -74,21 +59,16 @@ const ReportForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50 p-4 sm:p-8">
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <Link to={"/"}>
-            <button
-              className="flex items-center text-blue-800 font-bold hover:text-blue-600 transition-colors duration-200"
-              aria-label="Go back"
-            >
-              <ArrowLeft size={24} className="mr-2" />
-              <span className="text-lg uppercase">BACK</span>
-            </button>
-          </Link>
-
-          <div className="relative w-full max-w-md ml-4">
+    <div className="min-h-screen bg-[rgba(255,252,239,1)] flex flex-col">
+      {/* Header with back button and centered search */}
+      <header className="w-full p-4 flex justify-between items-center">
+        <Link to="/" className="flex items-center text-blue-800 font-bold hover:text-blue-600 transition-colors">
+          <ArrowLeft size={24} className="mr-2" />
+          <span className="text-lg uppercase">BACK</span>
+        </Link>
+        
+        <div className="absolute left-1/2 transform -translate-x-1/2 w-64">
+          <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search size={20} className="text-gray-400" />
             </div>
@@ -96,19 +76,21 @@ const ReportForm = () => {
               type="text"
               placeholder="Search"
               className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md bg-gray-100 
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
             />
           </div>
         </div>
+      </header>
 
+      {/* Main content */}
+      <main className="flex-1 flex flex-col items-center justify-center p-4 w-full max-w-2xl mx-auto">
         {/* Title */}
-        <h1 className="text-center text-4xl font-bold text-blue-900 bg-blue-100 py-4 rounded-full w-64 mx-auto mb-8">
+        <h1 className="text-3xl font-bold text-blue-900 bg-blue-100 py-3 px-6 rounded-full mb-6">
           REPORT
         </h1>
 
         {/* Form Card */}
-        <div className="bg-blue-100/50 rounded-3xl p-8 shadow-lg">
-          {/* Error and Success Messages */}
+        <div className="w-full bg-blue-100/50 rounded-2xl p-6 shadow-md">
           {error && (
             <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">
               {error}
@@ -120,11 +102,10 @@ const ReportForm = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-blue-600 mb-2">
+                <label className="block text-sm font-medium text-blue-600 mb-1">
                   Name?
                 </label>
                 <input
@@ -132,15 +113,14 @@ const ReportForm = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="bg-white w-full p-3 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="bg-white w-full p-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your name"
                   required
                 />
               </div>
 
-              {/* Right Column */}
               <div>
-                <label className="block text-sm font-medium text-blue-600 mb-2">
+                <label className="block text-sm font-medium text-blue-600 mb-1">
                   Area?
                 </label>
                 <input
@@ -148,16 +128,15 @@ const ReportForm = () => {
                   name="area"
                   value={formData.area}
                   onChange={handleChange}
-                  className="bg-white w-full p-3 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="bg-white w-full p-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter area name"
                   required
                 />
               </div>
             </div>
 
-            {/* Full Width Fields */}
             <div>
-              <label className="block text-sm font-medium text-blue-600 mb-2">
+              <label className="block text-sm font-medium text-blue-600 mb-1">
                 Location?
               </label>
               <input
@@ -165,32 +144,31 @@ const ReportForm = () => {
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                className="bg-white w-full p-3 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="bg-white w-full p-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter location details"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-blue-600 mb-2">
+              <label className="block text-sm font-medium text-blue-600 mb-1">
                 Complaint?
               </label>
               <textarea
                 name="complaint"
                 value={formData.complaint}
                 onChange={handleChange}
-                className="bg-white w-full p-3 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[120px]"
+                className="bg-white w-full p-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px]"
                 placeholder="Describe your complaint"
                 required
               ></textarea>
             </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-end">
+            <div className="flex justify-end pt-2">
               <button
                 type="submit"
                 disabled={loading}
-                className={`bg-blue-700 text-white px-8 py-3 rounded-md font-semibold hover:bg-blue-800 
+                className={`bg-blue-700 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-800 
                          transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
                            loading ? 'opacity-70 cursor-not-allowed' : ''
                          }`}
@@ -200,7 +178,12 @@ const ReportForm = () => {
             </div>
           </form>
         </div>
-      </div>
+      </main>
+
+      {/* Footer with blue line */}
+      <footer className="w-full">
+        <div className="w-full bg-cyan-500 h-4"></div>
+      </footer>
     </div>
   );
 };
