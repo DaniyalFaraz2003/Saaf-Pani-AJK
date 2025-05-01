@@ -2,7 +2,7 @@ import React from "react";
 
 const HeroSection = () => {
   return (
-    <section className="flex flex-col flex-1 ml-10 p-4 mt-20">
+    <section className="flex flex-col flex-1 ml-10 p-4 mt-4">
       <div className="flex flex-col md:flex-row items-center gap-4">
         <div>
           <img

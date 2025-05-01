@@ -26,26 +26,30 @@ const PHChart = ({ phComparisonData }) => {
   });
 
   return (
-    <div className="h-[300px] mt-4">
+    <div className="h-[200px] mt-2">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={chartData}
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+          barSize={20}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="city"
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             interval={0}
+            height={20}
           />
           <YAxis
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
+            width={20}
           />
           <Tooltip
             contentStyle={{
               backgroundColor: 'white',
               borderRadius: '8px',
-              border: '1px solid #e2e8f0'
+              border: '1px solid #e2e8f0',
+              fontSize: '12px'
             }}
             formatter={(value, name) => {
               if (name === 'safe') return [`Safe: ${value}`, 'Safe (pH 5-7)'];
@@ -57,14 +61,14 @@ const PHChart = ({ phComparisonData }) => {
             dataKey="unsafe"
             stackId="a"
             fill="#EF4444"
-            radius={[4, 4, 0, 0]}
+            radius={[2, 2, 0, 0]}
             name="Unsafe"
           />
           <Bar
             dataKey="safe"
             stackId="a"
             fill="#3B82F6"
-            radius={[4, 4, 0, 0]}
+            radius={[2, 2, 0, 0]}
             name="Safe"
           />
         </BarChart>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="flex flex-wrap items-center justify-between p-4 w-full text-zinc-700">
+    <header className="flex flex-wrap items-center justify-between w-full text-zinc-700">
       <div className="flex items-center gap-2 text-2xl font-semibold">
         <img
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/10fba13d571850d6c0f37f3e5a697c655c53c0ac?placeholderIfAbsent=true&apiKey=619fd579a7344b7ca31268403d22177b"

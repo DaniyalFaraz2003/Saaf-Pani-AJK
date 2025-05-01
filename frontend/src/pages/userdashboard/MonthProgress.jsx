@@ -12,22 +12,22 @@ const MonthProgress = ({ safeSources, totalSources }) => {
   ];
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-md relative overflow-hidden transition-all duration-300 hover:shadow-lg">
-      <div className="mb-4">
-        <h3 className="text-center font-semibold text-gray-800">
+    <div className="bg-white rounded-lg p-3 shadow-md relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+      <div className="mb-1">
+        <h3 className="text-center text-sm font-semibold text-gray-800">
           Water Safety
         </h3>
       </div>
       
-      <div className="h-48">
+      <div className="h-[65px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={80}
+              innerRadius={20}
+              outerRadius={30}
               paddingAngle={5}
               dataKey="value"
             >
@@ -39,6 +39,8 @@ const MonthProgress = ({ safeSources, totalSources }) => {
               verticalAlign="bottom"
               height={2}
               formatter={(value) => <span className="text-xs uppercase font-medium">{value}</span>}
+              iconSize={8}
+              wrapperStyle={{ fontSize: '10px' }}
             />
           </PieChart>
         </ResponsiveContainer>

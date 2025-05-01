@@ -1,6 +1,5 @@
 // Dashboard.jsx
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
 import StatCards from './StatCards';
 import WaterSourcesTable from './WaterSourcesTable';
 import Charts from './Charts';
@@ -77,43 +76,58 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <Header />
-        <div className="mt-8 text-center">Loading dashboard data...</div>
+      <div className="min-h-screen flex flex-col mx-auto px-4 py-4 sm:px-6 lg:px-8 max-w-6xl">
+        <div className="flex-grow flex items-center justify-center">
+          <div className="text-center">Loading dashboard data...</div>
+        </div>
+        <Footer />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <Header />
-        <div className="mt-8 text-center text-red-500">{error}</div>
+      <div className="min-h-screen flex flex-col mx-auto px-4 py-4 sm:px-6 lg:px-8 max-w-6xl">
+        <div className="flex-grow flex items-center justify-center">
+          <div className="text-center text-red-500">{error}</div>
+        </div>
+        <Footer />
       </div>
     );
   }
 
   if (!dashboardData) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <Header />
-        <div className="mt-8 text-center">No dashboard data available</div>
+      <div className="min-h-screen flex flex-col mx-auto px-4 py-4 sm:px-6 lg:px-8 max-w-6xl">
+        <div className="flex-grow flex items-center justify-center">
+          <div className="text-center">No dashboard data available</div>
+        </div>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 ">
-      {/* Modified Header with search functionality */}
-      <div className="flex items-center justify-between">
-        <Link to={"/"} className="flex items-center text-blue-800 font-bold hover:text-blue-600 transition-colors duration-200">
-          <ArrowLeft size={24} className="mr-2" />
-          <span className="text-lg uppercase">BACK</span>
-        </Link>
+    <>
+    <div className="h-screen flex flex-col mx-auto px-4 pt-4 sm:px-6 lg:px-8 max-w-6xl">
+      {/* Back button and centered search */}
+      <div className="flex flex-col items-center mb-4">
+        <div className="w-full flex justify-between items-center mb-3">
+          <Link to={"/"} className="flex items-center text-blue-800 font-bold hover:text-blue-600 transition-colors duration-200">
+            <ArrowLeft size={20} className="mr-1" />
+            <span className="text-sm uppercase">BACK</span>
+          </Link>
+          
+          <h1 className="text-center text-2xl font-bold text-blue-900 bg-blue-100 py-2 px-4 rounded-full mx-auto">
+            DASHBOARD
+          </h1>
+          
+          <div className="w-16"></div> {/* Spacer for centering */}
+        </div>
         
-        <form onSubmit={handleSearchSubmit} className="relative w-full max-w-md ml-4">
+        <form onSubmit={handleSearchSubmit} className="relative w-full max-w-md mb-2">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search size={20} className="text-gray-400" />
+            <Search size={18} className="text-gray-400" />
           </div>
           <input
             type="text"
@@ -121,7 +135,7 @@ const Dashboard = () => {
             value={searchTerm}
             onChange={handleSearchChange}
             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md bg-gray-100 
-                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
           />
           {showSuggestions && (
             <div className="absolute z-10 mt-1 w-full bg-white rounded-md shadow-lg">
@@ -132,7 +146,7 @@ const Dashboard = () => {
                 .map((city, index) => (
                   <div
                     key={index}
-                    className="px-4 py-2 hover:bg-blue-50 cursor-pointer"
+                    className="px-4 py-1 hover:bg-blue-50 cursor-pointer text-sm"
                     onClick={() => handleSuggestionClick(city)}
                   >
                     {city}
@@ -143,25 +157,32 @@ const Dashboard = () => {
         </form>
       </div>
       
-      <div className="mt-8">
-        <h1 className="text-center text-4xl font-bold text-blue-900 bg-blue-100 py-4 rounded-full w-64 mx-auto mb-8 transition-all duration-300 hover:shadow-md">
-          DASHBOARD
-        </h1>
+      <div className="flex-grow">
+        <StatCards 
+          totals={dashboardData.totals}
+          safeSourcesByCity={dashboardData.safeSourcesByCity}
+        />
+        
+        <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <WaterSourcesTable 
+            recentSources={dashboardData.recentSources} 
+          />
+          <Charts 
+            phComparisonData={dashboardData.phComparisonData}
+          />
+        </div>
       </div>
       
-      <StatCards 
-        totals={dashboardData.totals}
-        safeSourcesByCity={dashboardData.safeSourcesByCity}
-      />
       
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <WaterSourcesTable 
-          recentSources={dashboardData.recentSources} 
-        />
-        <Charts 
-          phComparisonData={dashboardData.phComparisonData}
-        />
-      </div>
+    <Footer />
+    </div>
+    </>
+  );
+};
+
+const Footer = () => {
+  return (
+    <div className="mt-6 py-3 border-t bg-[rgba(0,170,202,1)] border-gray-200 text-center w-full fixed bottom-0 left-0 text-sm text-gray-600">
     </div>
   );
 };

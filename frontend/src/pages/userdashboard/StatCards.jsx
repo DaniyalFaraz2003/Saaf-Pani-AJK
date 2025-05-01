@@ -4,19 +4,19 @@ import MonthProgress from './MonthProgress';
 
 const StatCard = ({ value, label, bgColor, iconColor }) => {
   return (
-    <div className={`${bgColor} rounded-lg p-6 shadow-md transition-transform duration-300 hover:scale-105`}>
-      <div className="flex justify-center mb-2">
-        <div className={`h-1.5 w-12 rounded-full ${iconColor}`}></div>
+    <div className={`${bgColor} rounded-lg p-3 shadow-md transition-transform duration-300 hover:scale-105`}>
+      <div className="flex justify-center mb-1">
+        <div className={`h-1 w-8 rounded-full ${iconColor}`}></div>
       </div>
-      <h2 className="text-5xl font-bold text-center text-white mb-2">{value}</h2>
-      <p className="text-center text-white font-medium">{label}</p>
+      <h2 className="text-3xl font-bold text-center text-white mb-1">{value}</h2>
+      <p className="text-center text-white text-sm font-medium">{label}</p>
     </div>
   );
 };
 
 const StatCards = ({ totals, safeSourcesByCity }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <StatCard 
         value={totals.locations} 
         label="Total Areas" 

@@ -162,70 +162,70 @@ function AddSourcePage() {
   };
 
   return (
-    <>
-      <div className="min-h-screen bg-[rgba(255,252,239,1)] flex flex-col items-center py-8 px-4">
+    <div className="flex flex-col min-h-screen bg-[rgba(255,252,239,1)]">
+      <main className="flex-1 flex flex-col items-center p-4">
         {/* Header Section */}
-        <div className="w-full max-w-6xl flex items-center justify-between mb-8">
+        <div className="w-full max-w-6xl flex items-center justify-between mb-4">
           {/* Back Button */}
           <div className="flex items-center">
             <Link to="/adminhome" className="flex items-center">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/88ab6d26989ee924ee4fcb10c92c56b4b0e0a3fc?placeholderIfAbsent=true"
                 alt="Back"
-                className="w-16 h-16 object-contain"
+                className="w-8 h-8 md:w-10 md:h-10 object-contain"
               />
-              <span className="ml-2 text-2xl text-[rgba(17,66,167,1)]">BACK</span>
+              <span className="ml-1 text-lg md:text-xl text-[rgba(17,66,167,1)]">BACK</span>
             </Link>
           </div>
-
+  
           {/* Page Title */}
-          <div className="bg-[rgba(214,237,255,1)] rounded-full px-8 py-4 text-3xl text-[rgba(14,58,147,1)] font-semibold">
+          <div className="bg-[rgba(214,237,255,1)] rounded-full px-4 py-2 text-xl md:text-2xl text-[rgba(14,58,147,1)] font-semibold">
             ADD NEW SOURCE
           </div>
-
+  
           {/* Logout Button */}
           <div className="flex items-center">
             <div onClick={handleLogout} className="flex flex-col items-center cursor-pointer">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/97c749ad8132c69a40e98c1ef72e64804eaed1ed?placeholderIfAbsent=true"
                 alt="Logout"
-                className="w-16 h-16 object-contain"
+                className="w-8 h-8 md:w-10 md:h-10 object-contain"
               />
-              <span className="mt-2 text-xl">LOGOUT</span>
+              <span className="text-sm md:text-base">LOGOUT</span>
             </div>
           </div>
         </div>
-
+  
         {/* Main Form Section */}
-        <div className="bg-[rgba(189,229,255,1)] rounded-3xl w-full max-w-5xl p-8 mb-8">
+        <div className="bg-[rgba(189,229,255,1)] rounded-3xl w-full max-w-5xl p-4 mb-4">
           {/* Success and Error Messages */}
           {error && (
-            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+            <div className="mb-2 p-2 bg-red-100 text-red-700 rounded-lg text-sm">
               {error}
             </div>
           )}
           {success && (
-            <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-lg text-sm">
+            <div className="mb-2 p-2 bg-green-100 text-green-700 rounded-lg text-sm">
               {success}
             </div>
           )}
-
+  
           <form onSubmit={handleSubmit}>
-            <div className="space-y-6">
+            <div className="space-y-3">
               {/* City Selection */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/313e2bdda2a521fb0ca7a897f4fe9b08146542a1?placeholderIfAbsent=true"
                   alt="City Icon"
-                  className="w-20 h-20 object-contain rounded-full"
+                  className="w-10 h-10 md:w-12 md:h-12 object-contain rounded-full"
                 />
                 <div className="flex-1">
-                  <div className="text-2xl text-black mb-2">CITY NAME</div>
+                  <div className="text-lg md:text-xl text-black mb-1">CITY NAME</div>
                   <select
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
-                    className="w-full bg-white rounded-lg p-3 text-xl outline-none"
+                    className="w-full bg-white rounded-lg p-2 text-base outline-none"
                     disabled={loadingCities}
                     required
                   >
@@ -236,20 +236,20 @@ function AddSourcePage() {
                       </option>
                     ))}
                   </select>
-                  {loadingCities && <div className="text-sm mt-1">Loading cities...</div>}
+                  {loadingCities && <div className="text-xs mt-1">Loading cities...</div>}
                 </div>
               </div>
-
+  
               {/* Tehsil/Location and Source Type */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Tehsil/Location Name */}
                 <div>
-                  <div className="text-xl text-black mb-1">Tehsil/Location Name</div>
+                  <div className="text-base md:text-lg text-black mb-1">Tehsil/Location Name</div>
                   <select
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    className="w-full bg-white rounded-lg p-3 text-xl outline-none"
+                    className="w-full bg-white rounded-lg p-2 text-base outline-none"
                     disabled={loadingLocations || !formData.city}
                     required
                   >
@@ -260,17 +260,17 @@ function AddSourcePage() {
                       </option>
                     ))}
                   </select>
-                  {loadingLocations && <div className="text-sm mt-1">Loading locations...</div>}
+                  {loadingLocations && <div className="text-xs mt-1">Loading locations...</div>}
                 </div>
-
+  
                 {/* Source Type */}
                 <div>
-                  <div className="text-xl text-black mb-1">Source type</div>
+                  <div className="text-base md:text-lg text-black mb-1">Source type</div>
                   <select
                     name="sourceType"
                     value={formData.sourceType}
                     onChange={handleChange}
-                    className="w-full bg-white rounded-lg p-3 text-xl outline-none"
+                    className="w-full bg-white rounded-lg p-2 text-base outline-none"
                     disabled={loadingSourceTypes}
                     required
                   >
@@ -281,58 +281,58 @@ function AddSourcePage() {
                       </option>
                     ))}
                   </select>
-                  {loadingSourceTypes && <div className="text-sm mt-1">Loading source types...</div>}
+                  {loadingSourceTypes && <div className="text-xs mt-1">Loading source types...</div>}
                 </div>
               </div>
-
+  
               {/* Date of Test and Last Test Date */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Date of Test */}
                 <div>
-                  <div className="text-xl text-black mb-1">Date of Test</div>
+                  <div className="text-base md:text-lg text-black mb-1">Date of Test</div>
                   <input
                     type="date"
                     name="dateOfTest"
                     value={formData.dateOfTest}
                     onChange={handleChange}
-                    className="w-full bg-white rounded-lg p-3 text-xl outline-none"
+                    className="w-full bg-white rounded-lg p-2 text-base outline-none"
                     required
                   />
                 </div>
-
+  
                 {/* Last Test Date */}
                 <div>
-                  <div className="text-xl text-black mb-1">Last Test Date:</div>
+                  <div className="text-base md:text-lg text-black mb-1">Last Test Date:</div>
                   <input
                     type="date"
                     name="lastTestDate"
                     value={formData.lastTestDate}
                     onChange={handleChange}
-                    className="w-full bg-white rounded-lg p-3 text-xl outline-none"
+                    className="w-full bg-white rounded-lg p-2 text-base outline-none"
                     required
                   />
                 </div>
               </div>
-
+  
               {/* TDS and pH Value */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* TDS */}
                 <div>
-                  <div className="text-xl text-black mb-1">TDS</div>
+                  <div className="text-base md:text-lg text-black mb-1">TDS</div>
                   <input
                     type="number"
                     name="TDS"
                     value={formData.TDS}
                     onChange={handleChange}
                     placeholder="Enter TDS value"
-                    className="w-full bg-white rounded-lg p-3 text-xl outline-none"
+                    className="w-full bg-white rounded-lg p-2 text-base outline-none"
                     required
                   />
                 </div>
-
+  
                 {/* pH Value */}
                 <div>
-                  <div className="text-xl text-black mb-1">pH Value</div>
+                  <div className="text-base md:text-lg text-black mb-1">pH Value</div>
                   <input
                     type="number"
                     name="phValue"
@@ -342,49 +342,48 @@ function AddSourcePage() {
                     min="0"
                     max="14"
                     placeholder="Enter pH value"
-                    className="w-full bg-white rounded-lg p-3 text-xl outline-none"
+                    className="w-full bg-white rounded-lg p-2 text-base outline-none"
                     required
                   />
                 </div>
               </div>
-
+  
               {/* Additional Info */}
               <div>
-                <div className="text-xl text-black mb-1">Additional Info</div>
+                <div className="text-base md:text-lg text-black mb-1">Additional Info</div>
                 <textarea
                   name="additionalInfo"
                   value={formData.additionalInfo}
                   onChange={handleChange}
                   placeholder="Enter additional information"
-                  className="w-full bg-white rounded-lg p-3 text-xl outline-none h-24 resize-none"
+                  className="w-full bg-white rounded-lg p-2 text-base outline-none h-16 resize-none"
                 />
               </div>
-
+  
               {/* Safe for drinking toggle and Submit button */}
-              <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-4">
+              <div className="flex flex-col sm:flex-row items-center justify-between mt-3 gap-2">
                 {/* Safe for drinking toggle */}
-                <div className="flex items-center gap-4">
-                  <div className="text-xl text-black">Safe for drinking?</div>
+                <div className="flex items-center gap-2">
+                  <div className="text-base md:text-lg text-black">Safe for drinking?</div>
                   <div
-                    className={`relative w-16 h-8 rounded-full cursor-pointer transition-colors duration-300 ${
+                    className={`relative w-12 h-6 rounded-full cursor-pointer transition-colors duration-300 ${
                       formData.isSafeForDrinking ? "bg-green-500" : "bg-red-500"
                     }`}
                     onClick={toggleSafeToDrink}
                   >
                     <div
-                      className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300 ${
-                        formData.isSafeForDrinking ? "left-8" : "left-1"
+                      className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-300 ${
+                        formData.isSafeForDrinking ? "left-7" : "left-1"
                       }`}
-                      style={{ transform: `translateX(${formData.isSafeForDrinking ? 'calc(100% - 1.5rem)' : '0'}` }}
                     />
                   </div>
                 </div>
-
+  
                 {/* Submit button */}
                 <button
                   type="submit"
                   disabled={submitting}
-                  className={`bg-[rgba(17,66,167,1)] rounded-lg px-8 py-3 text-xl text-white font-semibold hover:bg-blue-700 transition-colors ${
+                  className={`bg-[rgba(17,66,167,1)] rounded-lg px-6 py-2 text-base md:text-lg text-white font-semibold hover:bg-blue-700 transition-colors ${
                     submitting ? "opacity-70 cursor-not-allowed" : ""
                   }`}
                 >
@@ -394,9 +393,13 @@ function AddSourcePage() {
             </div>
           </form>
         </div>
-      </div>
-      <div className="bg-[rgba(0,170,202,1)] w-full h-12 mt-auto" />
-    </>
+      </main>
+      
+      {/* Footer */}
+      <footer className="mt-auto">
+        <div className="bg-[rgba(0,170,202,1)] w-full h-8 md:h-10" />
+      </footer>
+    </div>
   );
 }
 
